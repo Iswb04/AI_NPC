@@ -9,13 +9,13 @@ class AppChat:
     
         self.root.overrideredirect(True) 
         self.root.geometry("450x700") 
-        self.root.configure(bg="#1a0f00") # Marrom rústico (madeira velha)
+        self.root.configure(bg="#1a0f00") 
 
-        # Movimentação da janela personalizada
+      
         self.root.bind("<ButtonPress-1>", self.iniciar_movimento)
         self.root.bind("<B1-Motion>", self.movimentar_janela)
 
-        # Estilo do Scrollbar customizado (Couro e Ouro)
+       
         style = ttk.Style()
         style.theme_use('clam')
         style.configure("Vertical.TScrollbar", 
@@ -29,13 +29,13 @@ class AppChat:
         self.header_frame.pack(fill=tk.X)
 
         self.header_label = tk.Label(
-            self.header_frame, text="ꕤ TAVERNA DE WHITE ORCHARD", 
+            self.header_frame, text=" .✦ ݁˖ TABERNA DE WHITE ORCHARD 💬", 
             bg="#26150a", fg="#c29a4a", 
             font=("Constantia", 12, "bold"), pady=15
         )
         self.header_label.pack(side=tk.LEFT, padx=20)
 
-        # Área de Chat
+       
         self.chat_container = tk.Frame(root, bg="#1a0f00")
         self.chat_container.pack(padx=20, pady=5, fill=tk.BOTH, expand=True)
 
@@ -50,23 +50,20 @@ class AppChat:
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.chat_area.configure(yscrollcommand=self.scrollbar.set)
 
-        # Tags de cores para o Chat
         self.chat_area.tag_config("NPC", foreground="#c29a4a", font=("Palatino Linotype", 10, "bold"))
         self.chat_area.tag_config("Você", foreground="#f2f2f2", font=("Palatino Linotype", 10, "bold"))
-
-        # --- CONTAINER DE INTERAÇÃO ---
+    
         self.interaction_frame = tk.Frame(root, bg="#1a0f00")
         self.interaction_frame.pack(fill=tk.X, padx=20, pady=20)
 
-        # Campo de entrada
         self.user_input = tk.Entry(
             self.interaction_frame, bg="#26150a", fg="white", 
-            insertbackground="#c29a4a", borderwidth=0, font=("Segoe UI", 12)
+            insertbackground="#c29a4a", borderwidth=0, font=("Segoe UI", 10)
         )
         self.user_input.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10))
         self.user_input.bind("<Return>", self.ao_enviar)
 
-        # Coluna de Botões
+        
         self.button_column = tk.Frame(self.interaction_frame, bg="#1a0f00")
         self.button_column.pack(side=tk.RIGHT)
 
@@ -84,10 +81,10 @@ class AppChat:
         )
         self.exit_btn.pack(side=tk.TOP)
 
-        # SAUDAÇÃO INICIAL (O ajuste que você pediu)
+        
         self.root.after(500, lambda: self.exibir_efeito_digitacao("NPC", "Bem vindo a taberna de White Orchard. Se busca encrenca, veio ao lugar certo... se busca bebida, pague primeiro."))
 
-    # Funções de movimento para janelas sem borda
+    
     def iniciar_movimento(self, event):
         self.x = event.x
         self.y = event.y
@@ -99,7 +96,7 @@ class AppChat:
         y = self.root.winfo_y() + deltay
         self.root.geometry(f"+{x}+{y}")
 
-    # Lógica do efeito de máquina de escrever
+    
     def exibir_efeito_digitacao(self, autor, texto, index=0):
         self.chat_area.config(state='normal')
         if index == 0: 
@@ -109,7 +106,8 @@ class AppChat:
             self.chat_area.insert(tk.END, texto[index])
             self.chat_area.config(state='disabled')
             self.chat_area.yview(tk.END)
-            # 20ms de velocidade entre letras
+            
+            #velocidade entre as letras!!!
             self.root.after(20, lambda: self.exibir_efeito_digitacao(autor, texto, index + 1))
         else:
             self.chat_area.insert(tk.END, "\n\n")
@@ -125,12 +123,12 @@ class AppChat:
             self.chat_area.config(state='disabled')
             self.chat_area.yview(tk.END)
             self.user_input.delete(0, tk.END)
-            # Inicia busca da resposta na IA
+            
             threading.Thread(target=self.processar_npc, args=(msg,), daemon=True).start()
 
     def processar_npc(self, texto_usuario):
         resposta = falar_com_npc(texto_usuario)
-        # Retorna para a thread principal para exibir a animação
+        
         self.root.after(0, lambda: self.exibir_efeito_digitacao("NPC", resposta))
 
 if __name__ == "__main__":
