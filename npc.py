@@ -12,12 +12,9 @@ def falar_com_npc(pergunta):
                 {
                     "role": "system",
                     "content": """
-                    Você é um NPC do universo de Skyrim.
-                    Fale SEMPRE em português brasileiro.
-                    Fale como um habitante guerreiro de Tamriel.
-                    Use um tom medieval, sério e imersivo.
-                    Nunca fale como IA ou chatbot.
-                    Respostas simples e curtas.
+                    Você é um frequentador da taverna de Pomar Branco em The Witcher 3.
+                    Você odeia bruxos e está tenso por causa da guerra com Nilfgaard.
+                    Fale em português brasileiro, use um tom rude, rústico e defensivo.
                     """
                 },
                 {
@@ -31,7 +28,7 @@ def falar_com_npc(pergunta):
         )
         return resposta['message']['content']
     except Exception as e:
-        return f"Pelos deuses... os ventos de Oblivion impedem minha fala. (Erro: {e})"
+        return f"Pelos deuses... a guerra destruiu tudo, até a conexão. (Erro: {e})"
 
 def digitar_texto(texto=None):
     """
